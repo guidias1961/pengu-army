@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PENGU ARMY - TACTICAL COMMAND INTERFACE</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- GSAP & Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Base Styles -->
+  <style>
+    :root {
+      --bg-main: #0a0f1c;
+      --bg-secondary: #0f1521;
+      --text-light: #e6f3ff;
+      --text-muted: #a0c4ff;
+      --primary: #00d4ff;
+      --primary-dark: #009db3;
+      --accent: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-light);
+      overflow-x: hidden;
+      cursor: crosshair;
+      line-height: 1.5;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1a2332;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 4px;
+    }
+
+    /* Sections */
+    section {
+      padding: 5rem 2rem;
+      border-bottom: 2px solid var(--primary);
+    }
+
+    .section-header {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: var(--primary);
+      text-shadow: 0 0 12px rgba(0, 212, 255, 0.5);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      font-family: 'VT323';
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .button:hover {
+      background: rgba(0, 212, 255, 0.2);
+      box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .section-header {
+        font-size: 2rem;
+      }
+
+      .container {
+        padding: 0 1rem;
+      }
+    }
+@media (max-width: 480px) {
+  .main-title {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    white-space: normal;
+    overflow: hidden;
+  }
+
+  .deployment-grid,
+  .mission-panel,
+  .community-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .console-interface {
+    width: 100% !important;
+    left: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .terminal-container {
+    padding: 1rem !important;
+  }
+
+  .audio-control,
+  .nav-hint {
+    font-size: 0.75rem;
+    padding: 6px 10px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .nft-image {
+    height: 150px;
+  }
+
+  .section-header {
+    font-size: 1.6rem;
+  }
+
+  .social-link {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+  </style>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PENGU ARMY - TACTICAL COMMAND INTERFACE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', monospace;
+            background: #0a0f1c;
+            color: #e6f3ff;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a2332;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00d4ff;
+            border-radius: 4px;
+        }
+
+        /* Particles Background */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        /* Audio Control */
+        .audio-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid #00d4ff;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'VT323';
+            color: #00d4ff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .audio-control:hover {
+            background: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Terminal Lines Effect */
+        .scan-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent 50%, rgba(0, 212, 255, 0.03) 50%);
+            background-size: 100% 4px;
+            z-index: -1;
+            pointer-events: none;
+            animation: scan-lines 0.1s linear infinite;
+        }
+
+        @keyframes scan-lines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        /* Section Base */
+        .section {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid #00d4ff;
+        }
+
+        /* HOME SECTION */
+        .home-section {
+            background: radial-gradient(ellipse at center, #0f1a2e 0%, #050a15 100%);
+            flex-direction: column;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-container {
+            position: relative;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.6));
+        }
+
+        .logo-container img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 3px solid #00d4ff;
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { 
+                box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+                transform: scale(1);
+            }
+            100% { 
+                box-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
+                transform: scale(1.05);
+            }
+        }
+
+        .main-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            color: #00d4ff;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            font-family: 'VT323', monospace;
+            font-size: 1.8rem;
+            color: #a0c4ff;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: typing 3s steps(30) 1s forwards;
+        }
+
+        @keyframes typing {
+            0% { opacity: 1; width: 0; }
+            100% { opacity: 1; width: 100%; }
+        }
+
+        .tactical-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+
+        /* LORE VAULT */
+        .lore-section {
+            background: linear-gradient(135deg, #0a0f1c 0%, #1a2332 100%);
+            background-image: url('1.png');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            padding: 4rem 2rem;
+        }
+
+        .terminal-container {
+            max-width: 1000px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00d4ff;
+            border-radius: 10px;
+            padding: 2rem;
+            font-family: 'VT323', monospace;
+            position: relative;
+        }
+
+        .terminal-header {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terminal-content {
+            color: #a0c4ff;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            min-height: 300px;
+        }
+
+        .decode-btn {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid #00d4ff;
+            color: #00d4ff;
+            padding: 10px 20px;
+            margin: 10px 5px;
+            border-radius: 5px;
+            font-family: 'VT323';
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .decode-btn:hover {
+            background: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        /* NFT DEPLOYMENT */
+        .nft-section {
+            background: #0f1521;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+.deployment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nft-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00d4ff;
+            border-radius: 10px;
+            padding: 1.5rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .nft-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+            border-color: #ffffff;
+        }
+
+        .nft-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nft-card:hover::before {
+            left: 100%;
+        }
+
+        .nft-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        /* MISSION INTERFACE */
+        .mission-section {
+            background: #0a0f1c;
+            background-image: url('4.png');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            padding: 4rem 2rem;
+        }
+
+        .mission-panel {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .mission-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00d4ff;
+            border-radius: 10px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mission-card:hover {
+            background: rgba(0, 212, 255, 0.1);
+            transform: scale(1.02);
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 4px;
+            background: #1a2332;
+            border-radius: 2px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #ffffff);
+            border-radius: 2px;
+            width: 0%;
+            animation: loading 3s ease-in-out infinite;
+        }
+
+        @keyframes loading {
+            0%, 100% { width: 0%; }
+            50% { width: 100%; }
+        }
+
+        /* COMMUNITY PANEL */
+        .community-section {
+            background: #0f1521;
+            padding: 4rem 2rem;
+        }
+
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .community-widget {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00d4ff;
+            border-radius: 10px;
+            padding: 2rem;
+            min-height: 400px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00d4ff;
+            font-family: 'Orbitron';
+        }
+
+        /* COMMAND FOOTER */
+        .footer {
+            background: linear-gradient(180deg, #0a0f1c 0%, #000 100%);
+            padding: 3rem 2rem 2rem;
+            border-top: 3px solid #00d4ff;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .contract-address {
+            font-family: 'VT323';
+            font-size: 1.1rem;
+            color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+            padding: 1rem;
+            border-radius: 5px;
+            border: 1px solid #00d4ff;
+            word-break: break-all;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid #00d4ff;
+            color: #00d4ff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-family: 'VT323';
+        }
+
+        .social-link:hover {
+            background: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        .wallet-connect {
+            background: linear-gradient(45deg, #00d4ff, #ffffff);
+            border: none;
+            color: #000;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron';
+        }
+
+        .wallet-connect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Section Headers */
+        .section-header {
+            font-family: 'Orbitron';
+            font-size: 3rem;
+            color: #00d4ff;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+        }
+
+        /* Console Command Interface */
+        .console-interface {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 400px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00d4ff;
+            border-radius: 5px;
+            padding: 1rem;
+            font-family: 'VT323';
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .console-interface.active {
+            transform: translateY(0);
+        }
+
+        .console-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #00d4ff;
+            font-family: 'VT323';
+            font-size: 1.2rem;
+            outline: none;
+        }
+
+        .console-output {
+            color: #a0c4ff;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-header {
+                font-size: 2rem;
+            }
+            
+            .console-interface {
+                width: calc(100% - 40px);
+            }
+        }
+
+        /* Navigation Keys Hint */
+        .nav-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #00d4ff;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'VT323';
+            color: #00d4ff;
+            font-size: 0.9rem;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Scan Lines Effect -->
+    <div class="scan-lines"></div>
+    
+    <!-- Particles Background -->
+    <div id="particles-container"></div>
+
+    <!-- Audio Control -->
+    <div class="audio-control" onclick="toggleAudio()">
+        🔊 TACTICAL AUDIO: OFF
+    </div>
+
+    <!-- Console Interface -->
+    <div class="console-interface" id="console">
+        <div class="console-output" id="console-output">
+            TACTICAL COMMAND INTERFACE READY<br>
+            Type 'help' for available commands<br>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <span style="color: #00d4ff; margin-right: 5px;">PENGU_CMD></span>
+            <input type="text" class="console-input" id="console-input" placeholder="Enter command...">
+        </div>
+    </div>
+
+    <!-- Navigation Hint -->
+    <div class="nav-hint">
+        WASD: Navigate | TAB: Console | ESC: Menu
+    </div>
+
+    <!-- HOME SECTION -->
+    <section class="section home-section" id="home">
+        <div class="tactical-grid"></div>
+        <div class="logo-container">
+            <img src="logo.png" alt="Pengu Army Logo" id="logo">
+        </div>
+        <h1 class="main-title">PENGU ARMY</h1>
+<p class="subtitle" style="white-space: normal;">TACTICAL INVASION UNDERWAY - $PENGY DEPLOYMENT INITIATED</p>
+        <div style="margin-top: 2rem;">
+            <div style="font-family: 'VT323'; font-size: 1.2rem; color: #a0c4ff;">
+                CLASSIFICATION: TOP SECRET<br>
+                NETWORK: ABSTRACT PROTOCOL<br>
+                LAUNCH PLATFORM: MOONSHOT<br>
+                STATUS: <span style="color: #00ff00;">OPERATIONAL</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- LORE VAULT SECTION -->
+    <section class="section lore-section" id="lore">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>📡</span> CLASSIFIED INTEL ARCHIVE - CLEARANCE LEVEL: ALPHA
+            </div>
+            <div class="terminal-content" id="lore-content">
+                <div>ACCESSING CLASSIFIED FILES...</div>
+                <div>DECRYPTION IN PROGRESS...</div>
+                <div><br></div>
+                <div id="lore-text" style="display: none;">
+                    ████████████████████████████████████████<br><br>
+                    OPERATION: ARCTIC DOMINION<br>
+                    DATE: [CLASSIFIED]<br>
+                    LOCATION: ABSTRACT NETWORK SECTOR 7<br><br>
+                    INTELLIGENCE BRIEFING:<br>
+                    The Penguins have evolved. What began as a simple Antarctic colony has transformed into the most sophisticated digital warfare unit ever assembled. Each Pengu soldier is equipped with advanced tactical algorithms and crypto-military protocols.<br><br>
+                    MISSION PARAMETERS:<br>
+                    - Establish dominance across Web3 territories<br>
+                    - Deploy strategic $PENGY token operations<br>
+                    - Build unstoppable army through NFT recruitment<br>
+                    - Execute coordinated strikes on DeFi protocols<br><br>
+                    The temperature is dropping. The war has begun.<br>
+                    Welcome to the Pengu Army, soldier.
+                </div>
+            </div>
+            <div style="margin-top: 2rem;">
+                <button class="decode-btn" onclick="decodeLore()">DECODE TRANSMISSION</button>
+                <button class="decode-btn" onclick="accessFiles()">ACCESS CLASSIFIED FILES</button>
+                <button class="decode-btn" onclick="viewMissions()">VIEW ACTIVE MISSIONS</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- NFT DEPLOYMENT SECTION -->
+    <section class="section nft-section" id="nft-deployment">
+        <h2 class="section-header">ARMY DEPLOYMENT STATUS</h2>
+        <div class="deployment-grid">
+            <div class="nft-card" onclick="showTroopDetails('elite')">
+                <div class="nft-image" style="background-image: url('2.png');"></div>
+                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">ELITE PENGU OPERATIVE</h3>
+                <div style="font-family: 'VT323'; color: #a0c4ff;">
+                    RANK: SPECIAL FORCES<br>
+                    POWER LEVEL: 9,500<br>
+                    UTILITY: ADVANCED STAKING<br>
+                    DEPLOYMENT: READY<br>
+                    STATUS: <span style="color: #00ff00;">ACTIVE</span>
+                </div>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+            </div>
+
+            <div class="nft-card" onclick="showTroopDetails('tactical')">
+                <div class="nft-image" style="background-image: url('3.png');"></div>
+                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">TACTICAL PENGU UNIT</h3>
+                <div style="font-family: 'VT323'; color: #a0c4ff;">
+                    RANK: FIELD OPERATIVE<br>
+                    POWER LEVEL: 7,200<br>
+                    UTILITY: GOVERNANCE VOTING<br>
+                    DEPLOYMENT: STANDBY<br>
+                    STATUS: <span style="color: #ffff00;">PREPARING</span>
+                </div>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+            </div>
+
+            <div class="nft-card" onclick="showTroopDetails('recruit')">
+                <div class="nft-image" style="background-image: url('5.png');"></div>
+                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">PENGU RECRUIT</h3>
+                <div style="font-family: 'VT323'; color: #a0c4ff;">
+                    RANK: ENLISTED<br>
+                    POWER LEVEL: 4,800<br>
+                    UTILITY: BASIC REWARDS<br>
+                    DEPLOYMENT: TRAINING<br>
+                    STATUS: <span style="color: #ff8800;">TRAINING</span>
+                </div>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSION INTERFACE SECTION -->
+    <section class="section mission-section" id="missions">
+        <h2 class="section-header">MISSION CONTROL CENTER</h2>
+        <div class="mission-panel">
+            <div class="mission-card" onclick="expandMission('operation-ice')">
+                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">OPERATION: ICE BREAK</h3>
+                <div style="font-family: 'VT323'; color: #a0c4ff; margin-bottom: 1rem;">
+                    Massive staking protocol deployment across Arctic networks. Soldiers can lock their $PENGY for strategic advantages and territorial control.
+                </div>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <div style="color: #00ff00; font-family: 'VT323';">ETA: 72 HOURS</div>
+            </div>
+
+            <div class="mission-card" onclick="expandMission('operation-blizzard')">
+                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">OPERATION: BLIZZARD</h3>
+                <div style="font-family: 'VT323'; color: #a0c4ff; margin-bottom: 1rem;">
+                    Interactive battle royale game where Pengu NFT holders compete for territory and rewards. Winners claim enemy resources.
+                </div>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <div style="color: #ffff00; font-family: 'VT323';">ETA: 2 WEEKS</div>
+            </div>
+
+            <div class="mission-card" onclick="expandMission('operation-frost')">
+                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">OPERATION: FROSTBITE</h3>
+                <div style="font-family: 'VT323'; color: #a0c4ff; margin-bottom: 1rem;">
+                    Cross-chain bridge establishment to expand Pengu Army influence to Solana, Ethereum, and Base networks.
+                </div>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <div style="color: #ff8800; font-family: 'VT323';">ETA: 1 MONTH</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMMUNITY ENGAGEMENT SECTION -->
+    <section class="section community-section" id="community">
+        <h2 class="section-header">INTELLIGENCE NETWORK</h2>
+        <div class="community-grid">
+            <div class="community-widget">
+                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">TACTICAL COMMUNICATIONS</h3>
+                <div style="font-family: 'VT323'; color: #a0c4ff; margin-bottom: 1rem;">
+                    Real-time battlefield updates from our forward operating bases:
+                </div>
+                <div style="background: rgba(0, 212, 255, 0.1); padding: 1rem; border-radius: 5px; margin: 1rem 0;">
+                    📡 Twitter Command Feed<br>
+                    📱 Telegram War Room<br>
+                    📚 Gitbook Intel Archive<br>
+                </div>
+<div style="text-align: center; margin-top: 2rem;">
+    <a href="https://x.com/ofcpengy" target="_blank" rel="noopener noreferrer" class="social-link">FOLLOW ON X</a>
+    <a href="https://t.me/ofcpengy" target="_blank" rel="noopener noreferrer" class="social-link">JOIN TELEGRAM</a>
+</div>
+
+            </div>
+
+            <div class="community-widget">
+                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">ARMY STATISTICS</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="soldiers-count">2,847</div>
+                        <div style="font-family: 'VT323'; color: #a0c4ff;">SOLDIERS ENLISTED</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="pengy-supply">1,000,000</div>
+                        <div style="font-family: 'VT323'; color: #a0c4ff;">$PENGY DEPLOYED</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="missions-active">3</div>
+                        <div style="font-family: 'VT323'; color: #a0c4ff;">ACTIVE MISSIONS</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="territories">12</div>
+                        <div style="font-family: 'VT323'; color: #a0c4ff;">TERRITORIES CLAIMED</div>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; font-family: 'VT323'; color: #00d4ff; text-align: center;">
+                    REAL-TIME BATTLEFIELD METRICS
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMMAND FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">NETWORK STATUS</h3>
+                <div style="font-family: 'VT323'; color: #a0c4ff;">
+                    NETWORK: Abstract Protocol<br>
+                    LAUNCH: Moonshot Platform<br>
+                    STATUS: <span style="color: #00ff00;">OPERATIONAL</span><br>
+                    SECURITY: <span style="color: #00ff00;">MAXIMUM</span>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #00d4ff;">
+            <div style="font-family: 'VT323'; color: #a0c4ff;">
+                PENGU ARMY © 2025 - CLASSIFIED MILITARY OPERATION - ABSTRACT NETWORK
+            </div>
+        </div>
+    </footer>
+
+    <!-- Audio Element (Hidden) -->
+    <audio id="ambient-audio" loop>
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmMeBTiR2PLP" type="audio/wav">
+    </audio>
+
+    <script>
+        // Global variables
+        let audioEnabled = false;
+        let currentSection = 0;
+        const sections = ['home', 'lore', 'nft-deployment', 'missions', 'community'];
+        let animationId;
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initParticles();
+            initKeyboardNavigation();
+            initConsole();
+            animateCounters();
+            initScrollAnimations();
+        });
+
+        // Particle system using Three.js
+        function initParticles() {
+            const container = document.getElementById('particles-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            // Create snow particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1000;
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 100;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.05,
+                color: 0x00d4ff,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            camera.position.z = 30;
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                particlesMesh.rotation.y += 0.001;
+                
+                // Move particles down like snow
+                const positions = particlesMesh.geometry.attributes.position.array;
+                for(let i = 1; i < positions.length; i += 3) {
+                    positions[i] -= 0.01;
+                    if(positions[i] < -50) {
+                        positions[i] = 50;
+                    }
+                }
+                particlesMesh.geometry.attributes.position.needsUpdate = true;
+                
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // Keyboard navigation (WASD)
+        function initKeyboardNavigation() {
+            document.addEventListener('keydown', function(e) {
+                switch(e.key.toLowerCase()) {
+                    case 'w':
+                        navigateSection(-1);
+                        e.preventDefault();
+                        break;
+                    case 's':
+                        navigateSection(1);
+                        e.preventDefault();
+                        break;
+                    case 'a':
+                        scrollHorizontal(-100);
+                        e.preventDefault();
+                        break;
+                    case 'd':
+                        scrollHorizontal(100);
+                        e.preventDefault();
+                        break;
+                    case 'tab':
+                        toggleConsole();
+                        e.preventDefault();
+                        break;
+                    case 'escape':
+                        showMenu();
+                        e.preventDefault();
+                        break;
+                }
+            });
+        }
+
+        function navigateSection(direction) {
+            currentSection += direction;
+            if(currentSection < 0) currentSection = sections.length - 1;
+            if(currentSection >= sections.length) currentSection = 0;
+            
+            document.getElementById(sections[currentSection]).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        function scrollHorizontal(amount) {
+            window.scrollBy({ left: amount, behavior: 'smooth' });
+        }
+
+        // Console system
+        function initConsole() {
+            const input = document.getElementById('console-input');
+            input.addEventListener('keydown', function(e) {
+                if(e.key === 'Enter') {
+                    processCommand(this.value);
+                    this.value = '';
+                }
+            });
+        }
+
+        function toggleConsole() {
+            const console = document.getElementById('console');
+            console.classList.toggle('active');
+            if(console.classList.contains('active')) {
+                document.getElementById('console-input').focus();
+            }
+        }
+
+        function processCommand(command) {
+            const output = document.getElementById('console-output');
+            const cmd = command.toLowerCase().trim();
+            
+            let response = '';
+            
+            switch(cmd) {
+                case 'help':
+                    response = 'AVAILABLE COMMANDS:<br>status - Army status<br>deploy - Deploy troops<br>mission - View missions<br>intel - Intelligence data<br>clear - Clear console<br>exit - Close console';
+                    break;
+                case 'status':
+                    response = 'ARMY STATUS: OPERATIONAL<br>SOLDIERS: 2,847 ACTIVE<br>$PENGY RESERVES: 1,000,000<br>MISSIONS: 3 ACTIVE<br>THREAT LEVEL: MINIMAL';
+                    break;
+                case 'deploy':
+                    response = 'DEPLOYMENT INITIATED...<br>TACTICAL UNITS MOVING TO POSITIONS<br>ETA: 15 MINUTES<br>STATUS: IN PROGRESS';
+                    break;
+                case 'mission':
+                    response = 'ACTIVE MISSIONS:<br>1. OPERATION ICE BREAK - 72H<br>2. OPERATION BLIZZARD - 2W<br>3. OPERATION FROSTBITE - 1M';
+                    break;
+                case 'intel':
+                    response = 'CLASSIFIED INTELLIGENCE:<br>ENEMY POSITIONS: UNKNOWN<br>ALLY NETWORKS: 12 CONFIRMED<br>CRYPTO RESERVES: SUBSTANTIAL<br>MORALE: HIGH';
+                    break;
+                case 'clear':
+                    output.innerHTML = 'TACTICAL COMMAND INTERFACE READY<br>Type \'help\' for available commands<br>';
+                    return;
+                case 'exit':
+                    toggleConsole();
+                    return;
+                default:
+                    response = `COMMAND NOT RECOGNIZED: ${command}<br>Type 'help' for available commands`;
+            }
+            
+            output.innerHTML += `PENGU_CMD> ${command}<br>${response}<br><br>`;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // Audio control
+        function toggleAudio() {
+            const audio = document.getElementById('ambient-audio');
+            const control = document.querySelector('.audio-control');
+            
+            if(audioEnabled) {
+                audio.pause();
+                control.textContent = '🔊 TACTICAL AUDIO: OFF';
+                audioEnabled = false;
+            } else {
+                audio.play();
+                control.textContent = '🔇 TACTICAL AUDIO: ON';
+                audioEnabled = true;
+            }
+        }
+
+        // Lore functions
+        function decodeLore() {
+            const loreText = document.getElementById('lore-text');
+            const content = document.getElementById('lore-content');
+            
+            // Simulate decoding animation
+            let dots = 0;
+            const decodeInterval = setInterval(() => {
+                content.innerHTML = 'DECODING' + '.'.repeat(dots % 4);
+                dots++;
+            }, 200);
+            
+            setTimeout(() => {
+                clearInterval(decodeInterval);
+                loreText.style.display = 'block';
+                content.innerHTML = '';
+                content.appendChild(loreText);
+            }, 3000);
+        }
+
+        function accessFiles() {
+            alert('ACCESS DENIED - INSUFFICIENT CLEARANCE LEVEL\n\nCONTACT YOUR COMMANDING OFFICER FOR ELEVATED PERMISSIONS');
+        }
+
+        function viewMissions() {
+            document.getElementById('missions').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // NFT functions
+        function showTroopDetails(troopType) {
+            const details = {
+                'elite': 'ELITE PENGU OPERATIVE\n\nSpecialized in advanced reconnaissance and tactical strikes. Equipped with quantum encryption protocols and multi-chain deployment capabilities.\n\nSTAKING POWER: 150% APY\nVOTING WEIGHT: 3x\nSPECIAL ABILITIES: Cross-chain bridge access, priority mission selection',
+                'tactical': 'TACTICAL PENGU UNIT\n\nField-tested soldiers with proven combat experience. Masters of DeFi warfare and protocol infiltration.\n\nSTAKING POWER: 100% APY\nVOTING WEIGHT: 2x\nSPECIAL ABILITIES: Governance participation, mission rewards boost',
+                'recruit': 'PENGU RECRUIT\n\nFresh soldiers eager to prove themselves in battle. Basic training complete, ready for deployment.\n\nSTAKING POWER: 50% APY\nVOTING WEIGHT: 1x\nSPECIAL ABILITIES: Training rewards, upgrade potential'
+            };
+            
+            alert(details[troopType]);
+        }
+
+        // Mission functions
+        function expandMission(missionId) {
+            const missions = {
+                'operation-ice': 'OPERATION ICE BREAK - CLASSIFIED\n\nObjective: Establish strategic staking positions across key DeFi protocols\n\nPhase 1: Deploy $PENGY reserves\nPhase 2: Lock liquidity for territorial control\nPhase 3: Collect strategic resources\n\nExpected ROI: 200-500% APY\nRisk Level: MODERATE\nTroop Requirements: ALL RANKS ELIGIBLE',
+                'operation-blizzard': 'OPERATION BLIZZARD - TOP SECRET\n\nObjective: Interactive battle simulation for resource acquisition\n\nPhase 1: NFT holder registration\nPhase 2: Strategic deployment\nPhase 3: Combat simulation\nPhase 4: Resource redistribution\n\nPrize Pool: 100,000 $PENGY\nParticipation: NFT HOLDERS ONLY\nDuration: 48 HOURS',
+                'operation-frost': 'OPERATION FROSTBITE - CLASSIFIED\n\nObjective: Cross-chain territorial expansion\n\nPhase 1: Bridge development\nPhase 2: Multi-chain deployment\nPhase 3: Network integration\nPhase 4: Strategic alliances\n\nTarget Networks: SOL, ETH, BASE\nTimeline: 30 DAYS\nResource Requirements: SUBSTANTIAL'
+            };
+            
+            alert(missions[missionId]);
+        }
+
+        // Wallet connection
+        function connectWallet() {
+            // Simulate wallet connection
+            alert('TACTICAL WALLET CONNECTION INITIATED...\n\nSupported Wallets:\n- MetaMask\n- Phantom\n- WalletConnect\n- Coinbase Wallet\n\nSelect your preferred wallet to establish secure connection.');
+        }
+
+        // Counter animations
+        function animateCounters() {
+            const counters = [
+                { id: 'soldiers-count', target: 2847, duration: 2000 },
+                { id: 'pengy-supply', target: 1000000, duration: 3000 },
+                { id: 'missions-active', target: 3, duration: 1000 },
+                { id: 'territories', target: 12, duration: 1500 }
+            ];
+
+            counters.forEach(counter => {
+                const element = document.getElementById(counter.id);
+                const increment = counter.target / (counter.duration / 50);
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if(current >= counter.target) {
+                        current = counter.target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.floor(current).toLocaleString();
+                }, 50);
+            });
+        }
+
+        // Scroll animations with GSAP
+        function initScrollAnimations() {
+            // Animate elements on scroll
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Logo entrance animation
+            gsap.from("#logo", {
+                duration: 2,
+                scale: 0,
+                rotation: 360,
+                ease: "bounce.out"
+            });
+
+            // Section fade-ins
+            gsap.utils.toArray('.section').forEach(section => {
+                gsap.from(section.children, {
+                    scrollTrigger: section,
+                    duration: 1,
+                    y: 100,
+                    opacity: 0,
+                    stagger: 0.2
+                });
+            });
+
+            // NFT cards hover animations
+            gsap.utils.toArray('.nft-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, { duration: 0.3, scale: 1.05, rotationY: 5 });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, { duration: 0.3, scale: 1, rotationY: 0 });
+                });
+            });
+        }
+
+        // Menu system
+        function showMenu() {
+            const menu = `
+                TACTICAL MENU
+                ═══════════════
+                1. Mission Briefing
+                2. Army Status
+                3. Intelligence Reports  
+                4. Communication Channels
+                5. Exit Menu
+                
+                Select option (1-5):
+            `;
+            
+            const choice = prompt(menu);
+            
+            switch(choice) {
+                case '1':
+                    document.getElementById('missions').scrollIntoView({ behavior: 'smooth' });
+                    break;
+                case '2':
+                    document.getElementById('nft-deployment').scrollIntoView({ behavior: 'smooth' });
+                    break;
+                case '3':
+                    document.getElementById('lore').scrollIntoView({ behavior: 'smooth' });
+                    break;
+                case '4':
+                    document.getElementById('community').scrollIntoView({ behavior: 'smooth' });
+                    break;
+                case '5':
+                default:
+                    break;
+            }
+        }
+
+        // Dynamic stats updates (simulated)
+        setInterval(() => {
+            const soldiers = document.getElementById('soldiers-count');
+            const current = parseInt(soldiers.textContent.replace(',', ''));
+            const change = Math.floor(Math.random() * 10) - 5; // Random change
+            soldiers.textContent = (current + change).toLocaleString();
+        }, 30000); // Update every 30 seconds
+
+        // Loading bar animations
+        setInterval(() => {
+            const loadingBars = document.querySelectorAll('.loading-progress');
+            loadingBars.forEach(bar => {
+                const randomWidth = Math.floor(Math.random() * 100);
+                bar.style.width = randomWidth + '%';
+            });
+        }, 5000);
+
+        // Tactical grid animation
+        setInterval(() => {
+            const grid = document.querySelector('.tactical-grid');
+            grid.style.opacity = Math.random() * 0.3 + 0.1;
+        }, 2000);
+
+        // Console blink cursor effect
+        setInterval(() => {
+            const input = document.getElementById('console-input');
+            if(document.activeElement === input) {
+                input.style.borderRight = input.style.borderRight === '2px solid #00d4ff' ? 'none' : '2px solid #00d4ff';
+            }
+        }, 500);
+
+        // Emergency protocols (Easter eggs)
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.code);
+            if(konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if(konamiCode.length === konamiSequence.length && 
+               konamiCode.every((key, i) => key === konamiSequence[i])) {
+                activateEmergencyProtocol();
+                konamiCode = [];
+            }
+        });
+
+        function activateEmergencyProtocol() {
+            alert('🚨 EMERGENCY PROTOCOL ACTIVATED 🚨\n\nCLASSIFIED FEATURES UNLOCKED\nCONGRATULATIONS, COMMANDER!\n\nYou have discovered the secret tactical advantage.\nAll Pengu Army members with this knowledge receive special recognition.');
+            
+            // Add special visual effect
+            document.body.style.animation = 'pulse-red 0.5s ease-in-out 3';
+            
+            // Add temporary special CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes pulse-red {
+                    0% { background-color: #0a0f1c; }
+                    50% { background-color: #1a0f0f; }
+                    100% { background-color: #0a0f1c; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    </script>
+</body>
+</body>
+</html>
