@@ -1,183 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PENGU ARMY - TACTICAL COMMAND INTERFACE</title>
-
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <!-- GSAP & Three.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-  <!-- Base Styles -->
-  <style>
-    :root {
-      --bg-main: #0a0f1c;
-      --bg-secondary: #0f1521;
-      --text-light: #e6f3ff;
-      --text-muted: #a0c4ff;
-      --primary: #00d4ff;
-      --primary-dark: #009db3;
-      --accent: #ffffff;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Rajdhani', sans-serif;
-      background-color: var(--bg-main);
-      color: var(--text-light);
-      overflow-x: hidden;
-      cursor: crosshair;
-      line-height: 1.5;
-    }
-
-    a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    h1, h2, h3 {
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #1a2332;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 4px;
-    }
-
-    /* Sections */
-    section {
-      padding: 5rem 2rem;
-      border-bottom: 2px solid var(--primary);
-    }
-
-    .section-header {
-      font-size: 2.5rem;
-      text-align: center;
-      margin-bottom: 3rem;
-      color: var(--primary);
-      text-shadow: 0 0 12px rgba(0, 212, 255, 0.5);
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .button {
-      padding: 0.75rem 1.5rem;
-      border-radius: 5px;
-      background: rgba(0, 212, 255, 0.1);
-      border: 1px solid var(--primary);
-      color: var(--primary);
-      font-family: 'VT323';
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    .button:hover {
-      background: rgba(0, 212, 255, 0.2);
-      box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .section-header {
-        font-size: 2rem;
-      }
-
-      .container {
-        padding: 0 1rem;
-      }
-    }
-@media (max-width: 480px) {
-  .main-title {
-    font-size: 2rem;
-    line-height: 1.2;
-  }
-
-  .subtitle {
-    font-size: 1.1rem;
-    white-space: normal;
-    overflow: hidden;
-  }
-
-  .deployment-grid,
-  .mission-panel,
-  .community-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .console-interface {
-    width: 100% !important;
-    left: 0 !important;
-    border-radius: 0 !important;
-  }
-
-  .terminal-container {
-    padding: 1rem !important;
-  }
-
-  .audio-control,
-  .nav-hint {
-    font-size: 0.75rem;
-    padding: 6px 10px;
-    top: 10px;
-    right: 10px;
-  }
-
-  .nft-image {
-    height: 150px;
-  }
-
-  .section-header {
-    font-size: 1.6rem;
-  }
-
-  .social-link {
-    padding: 8px 12px;
-    font-size: 0.9rem;
-  }
-}
-
-  </style>
-</head>
-<body>
-<!DOCTYPE html>
-<html lang="en">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PENGU ARMY - TACTICAL COMMAND INTERFACE</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         * {
@@ -219,17 +48,18 @@
         /* Audio Control */
         .audio-control {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 10px;
+            right: 10px;
             z-index: 1000;
             background: rgba(0, 212, 255, 0.1);
             border: 1px solid #00d4ff;
-            padding: 10px;
+            padding: 8px 12px;
             border-radius: 5px;
             font-family: 'VT323';
             color: #00d4ff;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.8rem;
         }
         .audio-control:hover {
             background: rgba(0, 212, 255, 0.2);
@@ -263,6 +93,7 @@
             align-items: center;
             justify-content: center;
             border-bottom: 2px solid #00d4ff;
+            padding: 2rem 1rem;
         }
 
         /* HOME SECTION */
@@ -281,8 +112,8 @@
         }
 
         .logo-container img {
-            width: 200px;
-            height: 200px;
+            width: clamp(150px, 30vw, 200px);
+            height: clamp(150px, 30vw, 200px);
             border-radius: 50%;
             border: 3px solid #00d4ff;
             animation: pulse-glow 2s ease-in-out infinite alternate;
@@ -301,21 +132,23 @@
 
         .main-title {
             font-family: 'Orbitron', monospace;
-            font-size: 4rem;
+            font-size: clamp(2rem, 8vw, 4rem);
             font-weight: 900;
             color: #00d4ff;
             text-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
             margin-bottom: 1rem;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
         }
 
         .subtitle {
             font-family: 'VT323', monospace;
-            font-size: 1.8rem;
+            font-size: clamp(1rem, 4vw, 1.8rem);
             color: #a0c4ff;
             margin-bottom: 2rem;
             opacity: 0;
             animation: typing 3s steps(30) 1s forwards;
+            max-width: 90%;
+            word-wrap: break-word;
         }
 
         @keyframes typing {
@@ -332,8 +165,16 @@
             background-image: 
                 linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background-size: clamp(30px, 5vw, 50px) clamp(30px, 5vw, 50px);
             z-index: -1;
+        }
+
+        .home-status {
+            font-family: 'VT323';
+            font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+            color: #a0c4ff;
+            text-align: center;
+            max-width: 90%;
         }
 
         /* LORE VAULT */
@@ -343,43 +184,47 @@
             background-size: cover;
             background-position: center;
             background-blend-mode: overlay;
-            padding: 4rem 2rem;
+            padding: 2rem 1rem;
         }
 
         .terminal-container {
-            max-width: 1000px;
+            max-width: 100%;
+            width: min(1000px, 95vw);
             background: rgba(0, 0, 0, 0.8);
             border: 2px solid #00d4ff;
             border-radius: 10px;
-            padding: 2rem;
+            padding: clamp(1rem, 4vw, 2rem);
             font-family: 'VT323', monospace;
             position: relative;
         }
 
         .terminal-header {
             color: #00d4ff;
-            font-size: 1.5rem;
+            font-size: clamp(1rem, 3vw, 1.5rem);
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .terminal-content {
             color: #a0c4ff;
-            font-size: 1.2rem;
+            font-size: clamp(0.9rem, 2.5vw, 1.2rem);
             line-height: 1.6;
-            min-height: 300px;
+            min-height: clamp(200px, 50vw, 300px);
+            word-wrap: break-word;
         }
 
         .decode-btn {
             background: rgba(0, 212, 255, 0.1);
             border: 1px solid #00d4ff;
             color: #00d4ff;
-            padding: 10px 20px;
-            margin: 10px 5px;
+            padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 20px);
+            margin: 5px;
             border-radius: 5px;
             font-family: 'VT323';
+            font-size: clamp(0.8rem, 2vw, 1rem);
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -392,23 +237,24 @@
         /* NFT DEPLOYMENT */
         .nft-section {
             background: #0f1521;
-            padding: 4rem 2rem;
+            padding: 2rem 1rem;
             position: relative;
         }
 
-.deployment-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+        .deployment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+            gap: clamp(1rem, 3vw, 2rem);
             max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .nft-card {
             background: rgba(0, 0, 0, 0.6);
             border: 2px solid #00d4ff;
             border-radius: 10px;
-            padding: 1.5rem;
+            padding: clamp(1rem, 3vw, 1.5rem);
             position: relative;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -416,7 +262,7 @@
         }
 
         .nft-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
             border-color: #ffffff;
         }
@@ -438,11 +284,25 @@
 
         .nft-image {
             width: 100%;
-            height: 200px;
+            height: clamp(150px, 30vw, 200px);
             background-size: cover;
             background-position: center;
             border-radius: 5px;
             margin-bottom: 1rem;
+        }
+
+        .nft-title {
+            color: #00d4ff;
+            font-family: 'Orbitron';
+            margin-bottom: 1rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+        }
+
+        .nft-details {
+            font-family: 'VT323';
+            color: #a0c4ff;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            line-height: 1.4;
         }
 
         /* MISSION INTERFACE */
@@ -452,22 +312,23 @@
             background-size: cover;
             background-position: center;
             background-blend-mode: overlay;
-            padding: 4rem 2rem;
+            padding: 2rem 1rem;
         }
 
         .mission-panel {
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+            gap: clamp(1rem, 3vw, 2rem);
+            width: 100%;
         }
 
         .mission-card {
             background: rgba(0, 0, 0, 0.8);
             border: 2px solid #00d4ff;
             border-radius: 10px;
-            padding: 2rem;
+            padding: clamp(1rem, 3vw, 2rem);
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
@@ -476,6 +337,21 @@
         .mission-card:hover {
             background: rgba(0, 212, 255, 0.1);
             transform: scale(1.02);
+        }
+
+        .mission-title {
+            color: #00d4ff;
+            font-family: 'Orbitron';
+            margin-bottom: 1rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+        }
+
+        .mission-description {
+            font-family: 'VT323';
+            color: #a0c4ff;
+            margin-bottom: 1rem;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            line-height: 1.4;
         }
 
         .loading-bar {
@@ -500,31 +376,51 @@
             50% { width: 100%; }
         }
 
+        .mission-eta {
+            font-family: 'VT323';
+            font-size: clamp(0.8rem, 2vw, 1rem);
+        }
+
         /* COMMUNITY PANEL */
         .community-section {
             background: #0f1521;
-            padding: 4rem 2rem;
+            padding: 2rem 1rem;
         }
 
         .community-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
+            gap: clamp(1rem, 3vw, 2rem);
             max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .community-widget {
             background: rgba(0, 0, 0, 0.6);
             border: 2px solid #00d4ff;
             border-radius: 10px;
-            padding: 2rem;
-            min-height: 400px;
+            padding: clamp(1rem, 3vw, 2rem);
+            min-height: clamp(300px, 50vw, 400px);
+        }
+
+        .widget-title {
+            color: #00d4ff;
+            font-family: 'Orbitron';
+            margin-bottom: 1rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+        }
+
+        .widget-content {
+            font-family: 'VT323';
+            color: #a0c4ff;
+            margin-bottom: 1rem;
+            font-size: clamp(0.8rem, 2vw, 1rem);
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 1rem;
             margin-top: 1rem;
         }
@@ -537,53 +433,37 @@
         }
 
         .stat-value {
-            font-size: 2rem;
+            font-size: clamp(1.2rem, 4vw, 2rem);
             font-weight: bold;
             color: #00d4ff;
             font-family: 'Orbitron';
         }
 
-        /* COMMAND FOOTER */
-        .footer {
-            background: linear-gradient(180deg, #0a0f1c 0%, #000 100%);
-            padding: 3rem 2rem 2rem;
-            border-top: 3px solid #00d4ff;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .contract-address {
+        .stat-label {
             font-family: 'VT323';
-            font-size: 1.1rem;
-            color: #00d4ff;
-            background: rgba(0, 212, 255, 0.1);
-            padding: 1rem;
-            border-radius: 5px;
-            border: 1px solid #00d4ff;
-            word-break: break-all;
+            color: #a0c4ff;
+            font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+            margin-top: 0.5rem;
         }
 
         .social-links {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2rem;
         }
 
         .social-link {
             background: rgba(0, 212, 255, 0.1);
             border: 1px solid #00d4ff;
             color: #00d4ff;
-            padding: 10px 20px;
+            padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 20px);
             text-decoration: none;
             border-radius: 5px;
             transition: all 0.3s ease;
             font-family: 'VT323';
+            font-size: clamp(0.8rem, 2vw, 1rem);
         }
 
         .social-link:hover {
@@ -591,28 +471,48 @@
             box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
         }
 
-        .wallet-connect {
-            background: linear-gradient(45deg, #00d4ff, #ffffff);
-            border: none;
-            color: #000;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Orbitron';
+        /* COMMAND FOOTER */
+        .footer {
+            background: linear-gradient(180deg, #0a0f1c 0%, #000 100%);
+            padding: 2rem 1rem;
+            border-top: 3px solid #00d4ff;
         }
 
-        .wallet-connect:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #00d4ff;
+            font-family: 'Orbitron';
+            margin-bottom: 1rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+        }
+
+        .footer-section {
+            font-family: 'VT323';
+            color: #a0c4ff;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #00d4ff;
+            font-family: 'VT323';
+            color: #a0c4ff;
+            font-size: clamp(0.7rem, 1.8vw, 0.9rem);
         }
 
         /* Section Headers */
         .section-header {
             font-family: 'Orbitron';
-            font-size: 3rem;
+            font-size: clamp(1.8rem, 6vw, 3rem);
             color: #00d4ff;
             text-align: center;
             margin-bottom: 3rem;
@@ -622,9 +522,10 @@
         /* Console Command Interface */
         .console-interface {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 400px;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            max-width: 400px;
             background: rgba(0, 0, 0, 0.9);
             border: 2px solid #00d4ff;
             border-radius: 5px;
@@ -645,46 +546,118 @@
             border: none;
             color: #00d4ff;
             font-family: 'VT323';
-            font-size: 1.2rem;
+            font-size: clamp(0.9rem, 2.5vw, 1.2rem);
             outline: none;
         }
 
         .console-output {
             color: #a0c4ff;
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 2vw, 1rem);
             margin-bottom: 0.5rem;
             max-height: 200px;
             overflow-y: auto;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 2.5rem;
-            }
-            
-            .section-header {
-                font-size: 2rem;
-            }
-            
-            .console-interface {
-                width: calc(100% - 40px);
-            }
+        .console-prompt {
+            display: flex;
+            align-items: center;
+        }
+
+        .console-prompt span {
+            color: #00d4ff;
+            margin-right: 5px;
+            font-size: clamp(0.8rem, 2vw, 1rem);
         }
 
         /* Navigation Keys Hint */
         .nav-hint {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 10px;
+            right: 10px;
             background: rgba(0, 0, 0, 0.8);
             border: 1px solid #00d4ff;
-            padding: 10px;
+            padding: 8px 10px;
             border-radius: 5px;
             font-family: 'VT323';
             color: #00d4ff;
-            font-size: 0.9rem;
+            font-size: clamp(0.7rem, 1.8vw, 0.9rem);
             z-index: 1000;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .section {
+                padding: 1rem 0.5rem;
+            }
+            
+            .console-interface {
+                left: 5px;
+                right: 5px;
+                bottom: 5px;
+            }
+            
+            .nav-hint {
+                right: 5px;
+                bottom: 5px;
+            }
+            
+            .audio-control {
+                top: 5px;
+                right: 5px;
+            }
+            
+            .deployment-grid,
+            .mission-panel,
+            .community-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-status {
+                font-size: 0.8rem;
+            }
+            
+            .decode-btn {
+                display: block;
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .social-link {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Touch-friendly adjustments */
+        @media (hover: none) and (pointer: coarse) {
+            .nft-card:hover,
+            .mission-card:hover,
+            .decode-btn:hover,
+            .social-link:hover,
+            .audio-control:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .nft-card:active,
+            .mission-card:active,
+            .decode-btn:active,
+            .social-link:active,
+            .audio-control:active {
+                transform: scale(0.98);
+                opacity: 0.8;
+            }
         }
     </style>
 </head>
@@ -706,8 +679,8 @@
             TACTICAL COMMAND INTERFACE READY<br>
             Type 'help' for available commands<br>
         </div>
-        <div style="display: flex; align-items: center;">
-            <span style="color: #00d4ff; margin-right: 5px;">PENGU_CMD></span>
+        <div class="console-prompt">
+            <span>PENGU_CMD></span>
             <input type="text" class="console-input" id="console-input" placeholder="Enter command...">
         </div>
     </div>
@@ -724,14 +697,12 @@
             <img src="logo.png" alt="Pengu Army Logo" id="logo">
         </div>
         <h1 class="main-title">PENGU ARMY</h1>
-<p class="subtitle" style="white-space: normal;">TACTICAL INVASION UNDERWAY - $PENGY DEPLOYMENT INITIATED</p>
-        <div style="margin-top: 2rem;">
-            <div style="font-family: 'VT323'; font-size: 1.2rem; color: #a0c4ff;">
-                CLASSIFICATION: TOP SECRET<br>
-                NETWORK: ABSTRACT PROTOCOL<br>
-                LAUNCH PLATFORM: MOONSHOT<br>
-                STATUS: <span style="color: #00ff00;">OPERATIONAL</span>
-            </div>
+        <p class="subtitle">TACTICAL INVASION UNDERWAY - $PENGY DEPLOYMENT INITIATED</p>
+        <div class="home-status">
+            CLASSIFICATION: TOP SECRET<br>
+            NETWORK: ABSTRACT PROTOCOL<br>
+            LAUNCH PLATFORM: MOONSHOT<br>
+            STATUS: <span style="color: #00ff00;">OPERATIONAL</span>
         </div>
     </section>
 
@@ -775,8 +746,8 @@
         <div class="deployment-grid">
             <div class="nft-card" onclick="showTroopDetails('elite')">
                 <div class="nft-image" style="background-image: url('2.png');"></div>
-                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">ELITE PENGU OPERATIVE</h3>
-                <div style="font-family: 'VT323'; color: #a0c4ff;">
+                <h3 class="nft-title">ELITE PENGU OPERATIVE</h3>
+                <div class="nft-details">
                     RANK: SPECIAL FORCES<br>
                     POWER LEVEL: 9,500<br>
                     UTILITY: ADVANCED STAKING<br>
@@ -790,8 +761,8 @@
 
             <div class="nft-card" onclick="showTroopDetails('tactical')">
                 <div class="nft-image" style="background-image: url('3.png');"></div>
-                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">TACTICAL PENGU UNIT</h3>
-                <div style="font-family: 'VT323'; color: #a0c4ff;">
+                <h3 class="nft-title">TACTICAL PENGU UNIT</h3>
+                <div class="nft-details">
                     RANK: FIELD OPERATIVE<br>
                     POWER LEVEL: 7,200<br>
                     UTILITY: GOVERNANCE VOTING<br>
@@ -805,8 +776,8 @@
 
             <div class="nft-card" onclick="showTroopDetails('recruit')">
                 <div class="nft-image" style="background-image: url('5.png');"></div>
-                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">PENGU RECRUIT</h3>
-                <div style="font-family: 'VT323'; color: #a0c4ff;">
+                <h3 class="nft-title">PENGU RECRUIT</h3>
+                <div class="nft-details">
                     RANK: ENLISTED<br>
                     POWER LEVEL: 4,800<br>
                     UTILITY: BASIC REWARDS<br>
@@ -825,36 +796,36 @@
         <h2 class="section-header">MISSION CONTROL CENTER</h2>
         <div class="mission-panel">
             <div class="mission-card" onclick="expandMission('operation-ice')">
-                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">OPERATION: ICE BREAK</h3>
-                <div style="font-family: 'VT323'; color: #a0c4ff; margin-bottom: 1rem;">
+                <h3 class="mission-title">OPERATION: ICE BREAK</h3>
+                <div class="mission-description">
                     Massive staking protocol deployment across Arctic networks. Soldiers can lock their $PENGY for strategic advantages and territorial control.
                 </div>
                 <div class="loading-bar">
                     <div class="loading-progress"></div>
                 </div>
-                <div style="color: #00ff00; font-family: 'VT323';">ETA: 72 HOURS</div>
+                <div class="mission-eta" style="color: #00ff00;">ETA: 72 HOURS</div>
             </div>
 
             <div class="mission-card" onclick="expandMission('operation-blizzard')">
-                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">OPERATION: BLIZZARD</h3>
-                <div style="font-family: 'VT323'; color: #a0c4ff; margin-bottom: 1rem;">
+                <h3 class="mission-title">OPERATION: BLIZZARD</h3>
+                <div class="mission-description">
                     Interactive battle royale game where Pengu NFT holders compete for territory and rewards. Winners claim enemy resources.
                 </div>
                 <div class="loading-bar">
                     <div class="loading-progress"></div>
                 </div>
-                <div style="color: #ffff00; font-family: 'VT323';">ETA: 2 WEEKS</div>
+                <div class="mission-eta" style="color: #ffff00;">ETA: 2 WEEKS</div>
             </div>
 
             <div class="mission-card" onclick="expandMission('operation-frost')">
-                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">OPERATION: FROSTBITE</h3>
-                <div style="font-family: 'VT323'; color: #a0c4ff; margin-bottom: 1rem;">
+                <h3 class="mission-title">OPERATION: FROSTBITE</h3>
+                <div class="mission-description">
                     Cross-chain bridge establishment to expand Pengu Army influence to Solana, Ethereum, and Base networks.
                 </div>
                 <div class="loading-bar">
                     <div class="loading-progress"></div>
                 </div>
-                <div style="color: #ff8800; font-family: 'VT323';">ETA: 1 MONTH</div>
+                <div class="mission-eta" style="color: #ff8800;">ETA: 1 MONTH</div>
             </div>
         </div>
     </section>
@@ -864,8 +835,8 @@
         <h2 class="section-header">INTELLIGENCE NETWORK</h2>
         <div class="community-grid">
             <div class="community-widget">
-                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">TACTICAL COMMUNICATIONS</h3>
-                <div style="font-family: 'VT323'; color: #a0c4ff; margin-bottom: 1rem;">
+                <h3 class="widget-title">TACTICAL COMMUNICATIONS</h3>
+                <div class="widget-content">
                     Real-time battlefield updates from our forward operating bases:
                 </div>
                 <div style="background: rgba(0, 212, 255, 0.1); padding: 1rem; border-radius: 5px; margin: 1rem 0;">
@@ -873,34 +844,33 @@
                     📱 Telegram War Room<br>
                     📚 Gitbook Intel Archive<br>
                 </div>
-<div style="text-align: center; margin-top: 2rem;">
-    <a href="https://x.com/ofcpengy" target="_blank" rel="noopener noreferrer" class="social-link">FOLLOW ON X</a>
-    <a href="https://t.me/ofcpengy" target="_blank" rel="noopener noreferrer" class="social-link">JOIN TELEGRAM</a>
-</div>
-
+                <div class="social-links">
+                    <a href="https://x.com/ofcpengy" target="_blank" rel="noopener noreferrer" class="social-link">FOLLOW ON X</a>
+                    <a href="https://t.me/ofcpengy" target="_blank" rel="noopener noreferrer" class="social-link">JOIN TELEGRAM</a>
+                </div>
             </div>
 
             <div class="community-widget">
-                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">ARMY STATISTICS</h3>
+                <h3 class="widget-title">ARMY STATISTICS</h3>
                 <div class="stats-grid">
                     <div class="stat-item">
                         <div class="stat-value" id="soldiers-count">2,847</div>
-                        <div style="font-family: 'VT323'; color: #a0c4ff;">SOLDIERS ENLISTED</div>
+                        <div class="stat-label">SOLDIERS ENLISTED</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="pengy-supply">1,000,000</div>
-                        <div style="font-family: 'VT323'; color: #a0c4ff;">$PENGY DEPLOYED</div>
+                        <div class="stat-label">$PENGY DEPLOYED</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="missions-active">3</div>
-                        <div style="font-family: 'VT323'; color: #a0c4ff;">ACTIVE MISSIONS</div>
+                        <div class="stat-label">ACTIVE MISSIONS</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="territories">12</div>
-                        <div style="font-family: 'VT323'; color: #a0c4ff;">TERRITORIES CLAIMED</div>
+                        <div class="stat-label">TERRITORIES CLAIMED</div>
                     </div>
                 </div>
-                <div style="margin-top: 2rem; font-family: 'VT323'; color: #00d4ff; text-align: center;">
+                <div style="margin-top: 2rem; font-family: 'VT323'; color: #00d4ff; text-align: center; font-size: clamp(0.8rem, 2vw, 1rem);">
                     REAL-TIME BATTLEFIELD METRICS
                 </div>
             </div>
@@ -910,9 +880,9 @@
     <!-- COMMAND FOOTER -->
     <footer class="footer">
         <div class="footer-content">
-            <div>
-                <h3 style="color: #00d4ff; font-family: 'Orbitron'; margin-bottom: 1rem;">NETWORK STATUS</h3>
-                <div style="font-family: 'VT323'; color: #a0c4ff;">
+            <div class="footer-section">
+                <h3>NETWORK STATUS</h3>
+                <div>
                     NETWORK: Abstract Protocol<br>
                     LAUNCH: Moonshot Platform<br>
                     STATUS: <span style="color: #00ff00;">OPERATIONAL</span><br>
@@ -921,10 +891,8 @@
             </div>
         </div>
         
-        <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #00d4ff;">
-            <div style="font-family: 'VT323'; color: #a0c4ff;">
-                PENGU ARMY © 2025 - CLASSIFIED MILITARY OPERATION - ABSTRACT NETWORK
-            </div>
+        <div class="footer-bottom">
+            PENGU ARMY © 2025 - CLASSIFIED MILITARY OPERATION - ABSTRACT NETWORK
         </div>
     </footer>
 
@@ -961,7 +929,7 @@
 
             // Create snow particles
             const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 1000;
+            const particlesCount = window.innerWidth < 768 ? 500 : 1000; // Reduce particles on mobile
             const posArray = new Float32Array(particlesCount * 3);
 
             for(let i = 0; i < particlesCount * 3; i++) {
@@ -971,7 +939,7 @@
             particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
             const particlesMaterial = new THREE.PointsMaterial({
-                size: 0.05,
+                size: window.innerWidth < 768 ? 0.03 : 0.05, // Smaller particles on mobile
                 color: 0x00d4ff,
                 transparent: true,
                 opacity: 0.8
@@ -1177,12 +1145,6 @@
             alert(missions[missionId]);
         }
 
-        // Wallet connection
-        function connectWallet() {
-            // Simulate wallet connection
-            alert('TACTICAL WALLET CONNECTION INITIATED...\n\nSupported Wallets:\n- MetaMask\n- Phantom\n- WalletConnect\n- Coinbase Wallet\n\nSelect your preferred wallet to establish secure connection.');
-        }
-
         // Counter animations
         function animateCounters() {
             const counters = [
@@ -1232,16 +1194,18 @@
                 });
             });
 
-            // NFT cards hover animations
-            gsap.utils.toArray('.nft-card').forEach(card => {
-                card.addEventListener('mouseenter', () => {
-                    gsap.to(card, { duration: 0.3, scale: 1.05, rotationY: 5 });
+            // NFT cards hover animations (disabled on touch devices)
+            if (window.matchMedia("(hover: hover)").matches) {
+                gsap.utils.toArray('.nft-card').forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        gsap.to(card, { duration: 0.3, scale: 1.05, rotationY: 5 });
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        gsap.to(card, { duration: 0.3, scale: 1, rotationY: 0 });
+                    });
                 });
-                
-                card.addEventListener('mouseleave', () => {
-                    gsap.to(card, { duration: 0.3, scale: 1, rotationY: 0 });
-                });
-            });
+            }
         }
 
         // Menu system
@@ -1299,7 +1263,9 @@
         // Tactical grid animation
         setInterval(() => {
             const grid = document.querySelector('.tactical-grid');
-            grid.style.opacity = Math.random() * 0.3 + 0.1;
+            if (grid) {
+                grid.style.opacity = Math.random() * 0.3 + 0.1;
+            }
         }, 2000);
 
         // Console blink cursor effect
@@ -1344,7 +1310,46 @@
             `;
             document.head.appendChild(style);
         }
+
+        // Touch/swipe support for mobile navigation
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            touchStartY = e.changedTouches[0].screenY;
+        });
+
+        document.addEventListener('touchend', function(e) {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartY - touchEndY;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe up - next section
+                    navigateSection(1);
+                } else {
+                    // Swipe down - previous section
+                    navigateSection(-1);
+                }
+            }
+        }
+
+        // Performance optimization for mobile
+        if (window.innerWidth < 768) {
+            // Reduce animation frequency on mobile
+            const originalSetInterval = window.setInterval;
+            window.setInterval = function(callback, delay) {
+                if (delay < 1000) {
+                    delay = Math.max(delay * 2, 1000); // Double the delay, minimum 1 second
+                }
+                return originalSetInterval(callback, delay);
+            };
+        }
     </script>
-</body>
 </body>
 </html>
