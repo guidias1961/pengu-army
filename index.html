@@ -240,6 +240,7 @@
             padding: 2rem 1rem;
             position: relative;
             min-height: auto;
+            flex-direction: column; /* Stacks title and grid on all screen sizes */
         }
 
         .deployment-grid {
@@ -249,7 +250,6 @@
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
-            padding: 0 1rem;
         }
 
         .nft-card {
@@ -315,6 +315,7 @@
             background-position: center;
             background-blend-mode: overlay;
             padding: 2rem 1rem;
+            flex-direction: column; /* Stacks title and grid on all screen sizes */
         }
 
         .mission-panel {
@@ -387,6 +388,7 @@
         .community-section {
             background: #0f1521;
             padding: 2rem 1rem;
+            flex-direction: column; /* Stacks title and grid on all screen sizes */
         }
 
         .community-grid {
@@ -589,29 +591,43 @@
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .section {
-                padding: 1rem 0.5rem;
+                padding: 4rem 1rem; /* Aumenta o padding vertical para dar espaço */
+                min-height: auto;   /* Permite que a seção tenha a altura do seu conteúdo */
             }
+
+            /* --- INÍCIO DA CORREÇÃO --- */
+            /* Força as seções com grids a terem um layout de coluna no mobile,
+               colocando o título acima dos cards. */
+            .nft-section,
+            .mission-section,
+            .community-section {
+                flex-direction: column;
+                justify-content: flex-start; /* Alinha o conteúdo ao topo */
+            }
+
+            /* Garante que as grades de cards se tornem uma única coluna vertical */
+            .deployment-grid,
+            .mission-panel,
+            .community-grid {
+                grid-template-columns: 1fr;
+                width: 100%; /* Garante que a grade ocupe a largura total */
+            }
+            /* --- FIM DA CORREÇÃO --- */
             
             .console-interface {
                 left: 5px;
                 right: 5px;
                 bottom: 5px;
+                max-width: none; /* Ocupa a largura toda no mobile */
             }
             
             .nav-hint {
-                right: 5px;
-                bottom: 5px;
+                display: none; /* Esconde a dica de teclado no mobile */
             }
             
             .audio-control {
                 top: 5px;
                 right: 5px;
-            }
-            
-            .deployment-grid,
-            .mission-panel,
-            .community-grid {
-                grid-template-columns: 1fr;
             }
         }
 
@@ -623,7 +639,7 @@
             .decode-btn {
                 display: block;
                 width: 100%;
-                margin: 5px 0;
+                margin: 10px 0;
             }
             
             .social-links {
@@ -664,18 +680,14 @@
     </style>
 </head>
 <body>
-    <!-- Scan Lines Effect -->
     <div class="scan-lines"></div>
     
-    <!-- Particles Background -->
     <div id="particles-container"></div>
 
-    <!-- Audio Control -->
     <div class="audio-control" onclick="toggleAudio()">
         🔊 TACTICAL AUDIO: OFF
     </div>
 
-    <!-- Console Interface -->
     <div class="console-interface" id="console">
         <div class="console-output" id="console-output">
             TACTICAL COMMAND INTERFACE READY<br>
@@ -687,12 +699,10 @@
         </div>
     </div>
 
-    <!-- Navigation Hint -->
     <div class="nav-hint">
         WASD: Navigate | TAB: Console | ESC: Menu
     </div>
 
-    <!-- HOME SECTION -->
     <section class="section home-section" id="home">
         <div class="tactical-grid"></div>
         <div class="logo-container">
@@ -708,7 +718,6 @@
         </div>
     </section>
 
-    <!-- LORE VAULT SECTION -->
     <section class="section lore-section" id="lore">
         <div class="terminal-container">
             <div class="terminal-header">
@@ -742,7 +751,6 @@
         </div>
     </section>
 
-    <!-- NFT DEPLOYMENT SECTION -->
     <section class="section nft-section" id="nft-deployment">
         <h2 class="section-header">ARMY DEPLOYMENT STATUS</h2>
         <div class="deployment-grid">
@@ -793,7 +801,6 @@
         </div>
     </section>
 
-    <!-- MISSION INTERFACE SECTION -->
     <section class="section mission-section" id="missions">
         <h2 class="section-header">MISSION CONTROL CENTER</h2>
         <div class="mission-panel">
@@ -832,7 +839,6 @@
         </div>
     </section>
 
-    <!-- COMMUNITY ENGAGEMENT SECTION -->
     <section class="section community-section" id="community">
         <h2 class="section-header">INTELLIGENCE NETWORK</h2>
         <div class="community-grid">
@@ -879,7 +885,6 @@
         </div>
     </section>
 
-    <!-- COMMAND FOOTER -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
@@ -898,7 +903,6 @@
         </div>
     </footer>
 
-    <!-- Audio Element (Hidden) -->
     <audio id="ambient-audio" loop>
         <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmMeBTiR2PLP" type="audio/wav">
     </audio>
@@ -1289,7 +1293,7 @@
             }
             
             if(konamiCode.length === konamiSequence.length && 
-               konamiCode.every((key, i) => key === konamiSequence[i])) {
+                konamiCode.every((key, i) => key === konamiSequence[i])) {
                 activateEmergencyProtocol();
                 konamiCode = [];
             }
@@ -1339,18 +1343,6 @@
                     navigateSection(-1);
                 }
             }
-        }
-
-        // Performance optimization for mobile
-        if (window.innerWidth < 768) {
-            // Reduce animation frequency on mobile
-            const originalSetInterval = window.setInterval;
-            window.setInterval = function(callback, delay) {
-                if (delay < 1000) {
-                    delay = Math.max(delay * 2, 1000); // Double the delay, minimum 1 second
-                }
-                return originalSetInterval(callback, delay);
-            };
         }
     </script>
 </body>
